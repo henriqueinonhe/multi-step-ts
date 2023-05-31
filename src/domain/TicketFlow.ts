@@ -1,5 +1,33 @@
 import { ValuesType } from "../utils";
 
+// Example
+
+// Using a closure to avoid complaints
+// that we're using stuff before they're defined
+() => {
+  const dummy = {} as TicketFlow;
+
+  if (ticketFlowIsInStep(dummy, TicketFlowSteps.SelectingSeats)) {
+    // Because we're in the SelectingSeats step,
+    // we know that the movie, pricePerTicket and date are defined
+    dummy.date;
+    dummy.movie;
+    dummy.pricePerTicket;
+  }
+
+  // Notice it also works with nested steps
+  if (ticketFlowIsInStep(dummy, TicketFlowSteps.PickingMovie.PickingDate)) {
+    dummy.movie;
+  }
+
+  // We can also use the assertion version as well
+  assertTicketFlowIsInStep(dummy, TicketFlowSteps.SelectingSeats);
+  dummy.date;
+  dummy.movie;
+  dummy.pricePerTicket;
+};
+
+// Definitions
 export type TicketFlow =
   | TicketFlowAtPickingMovie
   | TicketFlowAtPickingMovieDate
